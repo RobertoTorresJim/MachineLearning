@@ -3,6 +3,7 @@
  */
 package weka.classifiers.misc;
 
+import cn2.Selectores;
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -17,14 +18,19 @@ public class Clasificador1 extends AbstractClassifier {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	double clases;
+	double claseMayor;
+	double [][]estrella;
+	int[] cuentaclaseMayor;
+	int numClaseMayor;
 	
-	int[] cuentaClases;
+	Selectores selector;
 	
 	@Override
 	public double classifyInstance(Instance arg0) throws Exception {
 		// TODO Auto-generated method stub
-		return clases;
+		
+		
+		return claseMayor;
 	}
 
 	/* (non-Javadoc)
@@ -32,46 +38,11 @@ public class Clasificador1 extends AbstractClassifier {
 	 */
 	@Override
 	public void buildClassifier(Instances datos) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println(datos.attribute(0).);
-		cuentaClases = new int [(int)datos.numClasses()];
-		//System.out.println(cuentaClases.length);
-		for(int num : cuentaClases) {
-			num = 0;
-		}
-		
-		datos.sort(datos.numAttributes()-1);
-		int index = 0;
-		for(int i = 0; i < datos.numInstances()-1; i++ ) {
-			if(datos.instance(i).classValue() == datos.instance(i+1).classValue()){
-				cuentaClases[index] += 1;
-				System.out.println("index: " + index);
-			}
-			else {
-				cuentaClases[index] += 1;
-				System.out.println("index: " + index);
-				index++;
-			}
-			
-		}
-		//System.out.println(cuentaClases[0]+", "+ cuentaClases[1]+", "+cuentaClases[2]);
-		if(cuentaClases[0]>cuentaClases[1]) {
-			if(cuentaClases[0]> cuentaClases[2]) {
-				clases = 0;
-			}
-			else {
-					clases = 2;	
-			}
-		}else {
-			if(cuentaClases[1]>cuentaClases[2])
-				clases = 1;
-			else
-				clases = 2;
-		}
-		System.out.println("clasifico con: " + clases);
+		claseMayor(datos);
 		
 	}
 	
+	//Metodo CN2
 	
 	public void cn2(Instances datos) {
 		int numeroDatos = 0;
@@ -93,6 +64,79 @@ public class Clasificador1 extends AbstractClassifier {
 		
 		
 	}
+	
+	//Creación de ESTRELLA para CN2
+	public void creaEstrella(Instances datos) {
+		int numInstTrue = 0;
+		for(int i = 0; i < datos.numAttributes(); i++) {
+			for(int j = 0; j < datos.attribute(i).numValues(); j++) {
+				for(int k = 0; k < datos.numInstances(); k++) {
+					if((int)datos.instance(k).classValue() == claseMayor(datos)) {
+						numInstTrue ++;
+						System.out.println("Si es de la clase mayor");
+					}
+					else
+						
+						System.out.println("No es de la clase mayor");
+				}
+				if(numInstTrue == numClaseMayor) {
+					selector
+				}
+			}
+		}
+		
+		
+	}
+	
+	//Busca la clase mayor
+	public int claseMayor(Instances datos) {
+		
+		// TODO Auto-generated method stub
+		//System.out.println(datos.attribute(0).);
+		cuentaclaseMayor = new int [(int)datos.numClasses()];
+		//System.out.println(cuentaclaseMayor.length);
+		for(int num : cuentaclaseMayor) {
+			num = 0;
+		}
+		datos.sort(datos.numAttributes()-1);
+		int index = 0;
+		for(int i = 0; i < datos.numInstances()-1; i++ ) {
+			if(datos.instance(i).classValue() == datos.instance(i+1).classValue()){
+				cuentaclaseMayor[index] += 1;
+				System.out.println("index: " + index);
+			}
+			else {
+				cuentaclaseMayor[index] += 1;
+				System.out.println("index: " + index);
+				index++;
+			}
+		}
+		//Ejemplo que funciona para datos con dos claseMayor
+		if(cuentaclaseMayor[0]>cuentaclaseMayor[1]) { 
+			claseMayor = 0;
+			numClaseMayor = (int)cuentaclaseMayor[0];
+		}
+		else {
+			claseMayor = 1;
+			numClaseMayor = (int)cuentaclaseMayor[1];
+		}
+		/*EJEMPLO PARA 3 claseMayor falta generalizar
+		if(cuentaclaseMayor[0]>cuentaclaseMayor[1]) {
+			if(cuentaclaseMayor[0]> cuentaclaseMayor[2]) {
+				claseMayor = 0;
+			}
+			else {
+					claseMayor = 2;	
+			}
+		}else {
+			if(cuentaclaseMayor[1]>cuentaclaseMayor[2])
+				claseMayor = 1;
+			else
+				claseMayor = 2;
+		}*/
+		return (int)claseMayor;
+	}
+	
 	@Override
 	public String toString() {
 		return "Clasificador1 []";
