@@ -2,22 +2,22 @@ package cn2;
 
 
 public class Selector {
-	private double atributo;
-	private double valor;
+	private String atributo;
+	private String valor;
 	
-	public double getAtributo() {
+	public String getAtributo() {
 		return atributo;
 	}
 	
-	public double getValor() {
+	public String getValor() {
 		return valor;
 	}
 	
-	public void setAtributo(double atributo) {
+	public void setAtributo(String atributo) {
 		this.atributo = atributo;
 	}
 	
-	public void setValor(double valor) {
+	public void setValor(String valor) {
 		this.valor = valor;
 	}
 	

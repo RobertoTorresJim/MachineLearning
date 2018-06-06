@@ -1,11 +1,11 @@
 package cn2;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
-public class Selectores {
-	LinkedList<Selector> selectores;
+public class Complejo {
+	ArrayList<Selector> selectores;
 	
-	public Selectores () {
-		selectores = new LinkedList<Selector>();
+	public Complejo () {
+		selectores = new ArrayList<Selector>();
 	}
 	//Regresa verdadero si se agrego el selector
 	public boolean addSelector(Selector nuevo) {
@@ -16,5 +16,9 @@ public class Selectores {
 		if(selectores.remove(index) != null)
 			return true;
 		else return false;
+	}
+	
+	public String toString() {
+		return "";
 	}
 }

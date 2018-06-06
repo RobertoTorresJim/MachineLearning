@@ -3,7 +3,9 @@
  */
 package weka.classifiers.misc;
 
-import cn2.Selectores;
+import java.util.ArrayList;
+
+import cn2.*;
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -23,7 +25,7 @@ public class Clasificador1 extends AbstractClassifier {
 	int[] cuentaclaseMayor;
 	int numClaseMayor;
 	
-	Selectores selector;
+	Complejo selector;
 	
 	@Override
 	public double classifyInstance(Instance arg0) throws Exception {
@@ -40,54 +42,22 @@ public class Clasificador1 extends AbstractClassifier {
 	public void buildClassifier(Instances datos) throws Exception {
 		claseMayor(datos);
 		
-	}
-	
-	//Metodo CN2
-	
-	public void cn2(Instances datos) {
-		int numeroDatos = 0;
-		int clasifyDatos = 0;
-		for() {//Recorre a la derecha
-			datos.attribute(0);
-			for(int i = 0; i < datos.numInstances(); i++) {
-				if(datos.get(i).attribute(0) == "Sunny") {
-					numeroDatos ++;
-					if(datos.get(i)).getClass() == "Yes") {
-						clasifyDatos ++;
-					}
-				}
-			}
-		}
-		if(numeroDatos-ClasifyDatos == 0) {
-			return regla;
-		}
+		ArrayList<Selector> selectores = new ArrayList<Selector>();
 		
-		
-	}
-	
-	//Creación de ESTRELLA para CN2
-	public void creaEstrella(Instances datos) {
-		int numInstTrue = 0;
-		for(int i = 0; i < datos.numAttributes(); i++) {
-			for(int j = 0; j < datos.attribute(i).numValues(); j++) {
-				for(int k = 0; k < datos.numInstances(); k++) {
-					if((int)datos.instance(k).classValue() == claseMayor(datos)) {
-						numInstTrue ++;
-						System.out.println("Si es de la clase mayor");
-					}
-					else
-						
-						System.out.println("No es de la clase mayor");
-				}
-				if(numInstTrue == numClaseMayor) {
-					selector
-				}
+		for(int i = 0; i < datos.numAttributes()-1; i++) {
+			for (int j = 0; j < datos.attribute(i).numValues();j++) {
+				Selector s = new Selector();
+				s.setAtributo(datos.attribute(i).name());
+				s.setValor(datos.attribute(i).value(j));
+				selectores.add(s);
+				System.out.println(datos.attribute(i).value(j));
 			}
 		}
 		
 		
 	}
 	
+
 	//Busca la clase mayor
 	public int claseMayor(Instances datos) {
 		
