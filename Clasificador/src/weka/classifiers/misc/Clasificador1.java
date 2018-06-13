@@ -13,7 +13,8 @@ import weka.core.Instance;
 import weka.core.Instances;
 
 /**
- * @author Roberto Torres Jiménez 
+ * @author Torres Jiménez Roberto
+ * @author  Rosalinda Mendoza Mendoza
  *
  */
 public class Clasificador1 extends AbstractClassifier {
