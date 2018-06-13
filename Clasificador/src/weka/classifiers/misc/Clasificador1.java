@@ -45,18 +45,18 @@ public class Clasificador1 extends AbstractClassifier {
 		claseMayor(datos);
 		
 		ArrayList<Selector> selectores = new ArrayList<Selector>();
-		
+		List<String> selectoresS = new ArrayList<String>();
 		for(int i = 0; i < datos.numAttributes()-1; i++) {
 			for (int j = 0; j < datos.attribute(i).numValues();j++) {
 				Selector s = new Selector();
 				s.setAtributo(datos.attribute(i).name());
 				s.setValor(datos.attribute(i).value(j));
 				selectores.add(s);
-				//selectoresS.add(datos.attribute(i).value(j));
+				selectoresS.add(datos.attribute(i).value(j));
 				System.out.println(datos.attribute(i).value(j));
 			}
 		}
-		List<Selector> selectoresS = selectores;
+		
 		Combinar com = new Combinar();
 		com.Test(selectoresS);
 		
@@ -122,11 +122,11 @@ public class Clasificador1 extends AbstractClassifier {
 	}
 
 	public class Combinar {
-		   List<Selector> c;
-		   List <Selector> d=new ArrayList<Selector>();
+		   List<String> c;
+		   List <String> d=new ArrayList<String>();
 		   public Combinar() {}
-		   public Combinar(List<Selector> lis){
-		      c=new ArrayList<Selector>();
+		   public Combinar(List<String> lis){
+		      c=new ArrayList<String>();
 		      sinPermutacion(lis);
 		      d=lis;
 		   }
@@ -156,7 +156,7 @@ public class Clasificador1 extends AbstractClassifier {
 		         for(int i=0;i<a.length;i++){
 		            for(int j=1;j<=a[i];j++){
 		               for(int k=1;k<=x;k++){
-		                  //cad+=(String)iter.next()+" ";//colocamos un separador
+		                  cad+=(String)iter.next()+" ";//colocamos un separador
 		               }//comb.add("\n");
 		               cad+="\n";//colacamos un salto de linea
 		            }
@@ -166,12 +166,9 @@ public class Clasificador1 extends AbstractClassifier {
 		      return cad;
 		   }
 		    
-		   public void sinPermutacion(List<Selector> lista) {
+		   public void sinPermutacion(List<String> lista) {
 			   //lista.toArray();
-		      Selector[] o = new Selector[lista.size()];
-		      for(int i = 0; i < o.length; i++) {
-		    	  o[i] = lista.get(i);
-		      }
+		      Object[] o = lista.toArray();
 		      
 		      for (int m = 1; m <= lista.size(); m++) {
 		         int[] posArr = new int[m];
@@ -186,11 +183,11 @@ public class Clasificador1 extends AbstractClassifier {
 		   }
 		 
 		 //fuente http://puraslineas.com/2011/01/19/combinaciones-permutaciones-y-agrupaciones-en-java/ 
-		   public void combina(int[] posArr, int posCam, int dea, Selector[] o) {
+		   public void combina(int[] posArr, int posCam, int dea, Object[] o) {
 		      int cantidad = o.length;
 		      int j;
 		      for (j = 0; j < posArr.length; j++) {
-		         c.add(o[posArr[j]]);
+		         c.add((String)o[posArr[j]]);
 		      }
 		      posArr[posCam]++;
 		      if (posArr[posCam] < cantidad) {
@@ -225,7 +222,7 @@ public class Clasificador1 extends AbstractClassifier {
 		   }//end combina
 		    
 		     //fuente http://puraslineas.com/2011/01/19/combinaciones-permutaciones-y-agrupaciones-en-java/ 
-		   public void Test(List<Selector> selectores){
+		   public void Test(List<String> selectores){
 		      
 		      
 		      Combinar comb=new Combinar(selectores);
