@@ -11,36 +11,42 @@ import weka.filters.unsupervised.attribute.Normalize;
 
 public class CNN extends AbstractClassifier {
 	//Variables que inicializa el usuario 
-	private int knn = 3;
-	private int m = 100;
+	private int knn;
+	private int m;
+	private int numClases;
 	
 	//Arreglo de normas y clases de cada instancia (xi, c)
 	ArrayList<TablaDistancia> td = new ArrayList<TablaDistancia>();
 	Instance x;
-	int k;
 	ArrayList<String>  vecinos = new ArrayList<String>();
 	
-	
+	double mayor;
 	
 	@Override
 	public void buildClassifier(Instances datos) throws Exception {
 		// TODO Auto-generated method stub
+		x = datos.get(0);
+		numClases = datos.numClasses();
 		datos = Normalizar(datos);
 		
 		for(int i = 0; i < datos.size(); i++) {
 			td.add(Distancia(datos.get(i), x));
 		}
+		System.out.println("Distancias Calculadas");
 		Collections.sort(td);
-		for(int i = 0; i < k; i++) {
+		System.out.println("Distancias ordenadas");
+		for(int i = 0; i < knn; i++) {
 			vecinos.add(td.get(i).clase);
+			System.out.println("Vecino añadido");
 		}
-		getMayor(vecinos);
+		 mayor = getMayor(vecinos);
+		System.out.println("Mayor  seleccionado");
 	}
 
 	@Override
 	public double classifyInstance(Instance dato) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return mayor;
 	}
 
 	public TablaDistancia Distancia(Instance xi, Instance x) {
@@ -73,8 +79,32 @@ public class CNN extends AbstractClassifier {
 		return "CNN [knn=" + knn + ", m=" + m + "]";
 	}
 
-	public String getMayor(ArrayList<String> lista) {
-		return "";
+	public double getMayor(ArrayList<String> lista) {
+		int[] countClases = new int[numClases];
+		String[] clases = new String[numClases];
+		ArrayList<String> temp = lista;
+		int max;
+		for(int i = 0; i < clases.length; i++) {
+			clases[i] = "";
+			countClases[i] = 0;
+		}
+		for(int i = 0; i < numClases; i++) {
+			clases[i] = lista.get(0);
+			for(int j = 1; j < lista.size(); j++) {
+				if(clases[i] == lista.get(j)) {
+					countClases[i] = countClases[i]++;
+					lista.remove(j);
+				}
+			}
+		}
+		max = 0;
+		for (int i = 1; i < numClases; i++) {
+			if(countClases[i]> max) {
+				max = i;
+			}
+		}
+		
+		return max;
 	}
 
 	@Override
