@@ -27,20 +27,21 @@ public class CNN extends AbstractClassifier {
 		// TODO Auto-generated method stub
 		x = datos.get(0);
 		numClases = datos.numClasses();
+		System.out.println("Numero de clases: " + numClases);
 		datos = Normalizar(datos);
 		
 		for(int i = 0; i < datos.size(); i++) {
 			td.add(Distancia(datos.get(i), x));
 		}
-		System.out.println("Distancias Calculadas");
+		//System.out.println("Distancias Calculadas");
 		Collections.sort(td);
-		System.out.println("Distancias ordenadas");
+		//System.out.println("Distancias ordenadas");
 		for(int i = 0; i < knn; i++) {
 			vecinos.add(td.get(i).clase);
-			System.out.println("Vecino añadido");
+			//System.out.println("Vecino añadido");
 		}
 		 mayor = getMayor(vecinos);
-		System.out.println("Mayor  seleccionado");
+		//System.out.println("Clase: " + mayor);
 	}
 
 	@Override
@@ -58,7 +59,7 @@ public class CNN extends AbstractClassifier {
 		for(int i = 0; i < xi.numAttributes(); i++) {
 			distEuc = distEuc +
 					Math.pow(xi.value(i) - x.value(i), 2.0f);
-			System.out.println("Clase : " + xi.stringValue(i));
+			//System.out.println("Clase : " + xi.stringValue(i));
 		}
 		/*****************************
 		 * Raiz de Zigma((xi-x)^2 *) *
@@ -103,7 +104,7 @@ public class CNN extends AbstractClassifier {
 				max = i;
 			}
 		}
-		
+		System.out.println(clases[max]);
 		return max;
 	}
 
@@ -113,7 +114,9 @@ public class CNN extends AbstractClassifier {
 		String[] arr = {"-K",""+getKnn(),"m", ""+getM()};
 		
 		return arr;
-	}	@Override
+	}	
+	
+	@Override
 	public void setOptions(String[] options) throws Exception {
 		// TODO Auto-generated method stub
 		super.setOptions(options);
@@ -134,6 +137,4 @@ public class CNN extends AbstractClassifier {
 	public void setM(int m) {
 		this.m = m;
 	}
-
-
 }
