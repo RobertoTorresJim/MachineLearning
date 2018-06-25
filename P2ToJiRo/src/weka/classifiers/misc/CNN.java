@@ -18,7 +18,7 @@ public class CNN extends AbstractClassifier {
 	ArrayList<TablaDistancia> td = new ArrayList<TablaDistancia>();
 	Instance x;
 	int k;
-	ArrayList<String>  listaClases = new ArrayList<String>();
+	ArrayList<String>  vecinos = new ArrayList<String>();
 	
 	
 	
@@ -32,9 +32,9 @@ public class CNN extends AbstractClassifier {
 		}
 		Collections.sort(td);
 		for(int i = 0; i < k; i++) {
-			listaClases.add(td.get(i).clase);
+			vecinos.add(td.get(i).clase);
 		}
-		getMayor(listaClases);
+		getMayor(vecinos);
 	}
 
 	@Override
