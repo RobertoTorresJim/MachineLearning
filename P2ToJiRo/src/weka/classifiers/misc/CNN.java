@@ -1,18 +1,21 @@
 package weka.classifiers.misc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instance;
 import weka.core.Instances;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Normalize;
 
 public class CNN extends AbstractClassifier {
 	//Variables que inicializa el usuario 
 	private int knn = 3;
 	private int m = 100;
 	
-	//Arrelo de normas y clases de cada instancia (xi, c)
-	ArrayList<TablaNormal> td = new ArrayList<TablaNormal>();
+	//Arreglo de normas y clases de cada instancia (xi, c)
+	ArrayList<TablaDistancia> td = new ArrayList<TablaDistancia>();
 	Instance x;
 	int k;
 	ArrayList<String>  listaClases = new ArrayList<String>();
@@ -22,10 +25,12 @@ public class CNN extends AbstractClassifier {
 	@Override
 	public void buildClassifier(Instances datos) throws Exception {
 		// TODO Auto-generated method stub
+		datos = Normalizar(datos);
+		
 		for(int i = 0; i < datos.size(); i++) {
 			td.add(Distancia(datos.get(i), x));
 		}
-		//td.sort();
+		Collections.sort(td);
 		for(int i = 0; i < k; i++) {
 			listaClases.add(td.get(i).clase);
 		}
@@ -38,10 +43,31 @@ public class CNN extends AbstractClassifier {
 		return 0;
 	}
 
-	public TablaNormal Distancia(Instance xi, Instance x) {
-		//Función para obtener la norma respecto x y xi;
-		return null;
+	public TablaDistancia Distancia(Instance xi, Instance x) {
+		//Función para obtener la distancia respecto x y xi;
+		double distEuc = 0;
+		/***********************
+		 * La suma de (xi-x)^2 *
+		 ***********************/
+		for(int i = 0; i < xi.numAttributes(); i++) {
+			distEuc = distEuc +
+					Math.pow(xi.value(i) - x.value(i), 2.0f);
+			System.out.println("Clase : " + xi.stringValue(i));
+		}
+		/*****************************
+		 * Raiz de Zigma((xi-x)^2 *) *
+		 *****************************/
+		distEuc = Math.sqrt(distEuc);
+		
+		return new TablaDistancia(distEuc, xi.getClass().getName());
 	}
+	
+	public Instances Normalizar(Instances data) throws Exception {
+		Normalize filter = new Normalize();
+		filter.setInputFormat(data);
+		return Filter.useFilter(data, filter);
+	}
+	
 	@Override
 	public String toString() {
 		return "CNN [knn=" + knn + ", m=" + m + "]";
