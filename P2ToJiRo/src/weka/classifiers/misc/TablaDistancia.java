@@ -1,12 +1,12 @@
 package weka.classifiers.misc;
 
-public class TablaDistancia implements Comparable{
+public class TablaDistancia {
 	double distancia;
-	String clase;
+	double clase;
 
 	TablaDistancia(){}
 	
-	TablaDistancia(double distancia, String clase){
+	TablaDistancia(double distancia, double clase){
 		this.distancia = distancia;
 		this.clase = clase;
 	}
@@ -19,19 +19,12 @@ public class TablaDistancia implements Comparable{
 		this.distancia = distancia;
 	}
 
-	public String getClase() {
+	public double getClase() {
 		return clase;
 	}
 
-	public void setClase(String clase) {
+	public void setClase(double clase) {
 		this.clase = clase;
-	}
-
-	@Override
-	public int compareTo(Object comparaDis) {
-		double comparaDist =((TablaDistancia)comparaDis).getDistancia();
-	    /* For Ascending order*/
-	    return (int) ((int)this.distancia-comparaDist);
 	}
 	
 }

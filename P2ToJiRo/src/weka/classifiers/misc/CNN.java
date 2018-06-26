@@ -1,7 +1,6 @@
 package weka.classifiers.misc;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instance;
@@ -10,15 +9,19 @@ import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Normalize;
 
 public class CNN extends AbstractClassifier {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Variables que inicializa el usuario 
-	private int knn;
-	private int m;
+	private int knn=3;
+	private int m=0;
 	private int numClases;
 	
 	//Arreglo de normas y clases de cada instancia (xi, c)
 	ArrayList<TablaDistancia> td = new ArrayList<TablaDistancia>();
 	Instance x;
-	ArrayList<String>  vecinos = new ArrayList<String>();
+	double[]  vecinos = new double[knn];
 	
 	double mayor;
 	
@@ -26,22 +29,29 @@ public class CNN extends AbstractClassifier {
 	public void buildClassifier(Instances datos) throws Exception {
 		// TODO Auto-generated method stub
 		x = datos.get(0);
+		System.out.println("X-Class:"+ x.classValue());
 		numClases = datos.numClasses();
-		System.out.println("Numero de clases: " + numClases);
+		//System.out.println("Numero de clases: " + numClases);
 		datos = Normalizar(datos);
 		
 		for(int i = 0; i < datos.size(); i++) {
 			td.add(Distancia(datos.get(i), x));
+			System.out.println("Clase datos: "+ datos.get(i).classValue());
 		}
-		//System.out.println("Distancias Calculadas");
-		Collections.sort(td);
-		//System.out.println("Distancias ordenadas");
+		ordena(td);
+		
+		
+		for (int i = 0; i < td.size(); i++) {
+			System.out.println(td.get(i).distancia+"\n");
+		}
+		
 		for(int i = 0; i < knn; i++) {
-			vecinos.add(td.get(i).clase);
-			//System.out.println("Vecino añadido");
+			vecinos[i] = td.get(i).getClase();
+			System.out.println("Vecino: " + td.get(i).getClase() + " añadido");
 		}
 		 mayor = getMayor(vecinos);
-		//System.out.println("Clase: " + mayor);
+		System.out.println("Clase: " + mayor);
+		classifyInstance(x);
 	}
 
 	@Override
@@ -56,7 +66,7 @@ public class CNN extends AbstractClassifier {
 		/***********************
 		 * La suma de (xi-x)^2 *
 		 ***********************/
-		for(int i = 0; i < xi.numAttributes(); i++) {
+		for(int i = 0; i < xi.numAttributes()-1; i++) {
 			distEuc = distEuc +
 					Math.pow(xi.value(i) - x.value(i), 2.0f);
 			//System.out.println("Clase : " + xi.stringValue(i));
@@ -65,8 +75,9 @@ public class CNN extends AbstractClassifier {
 		 * Raiz de Zigma((xi-x)^2 *) *
 		 *****************************/
 		distEuc = Math.sqrt(distEuc);
+		System.out.println("Distancia: " + distEuc);
 		
-		return new TablaDistancia(distEuc, xi.getClass().getName());
+		return new TablaDistancia(distEuc, xi.classValue());
 	}
 	
 	public Instances Normalizar(Instances data) throws Exception {
@@ -80,31 +91,30 @@ public class CNN extends AbstractClassifier {
 		return "CNN [knn=" + knn + ", m=" + m + "]";
 	}
 
-	public double getMayor(ArrayList<String> lista) {
+	public double getMayor(double[] lista) {
 		int[] countClases = new int[numClases];
-		String[] clases = new String[numClases];
-		ArrayList<String> temp = lista;
-		int max;
+		double[] clases = new double[numClases];
+		double max;
 		for(int i = 0; i < clases.length; i++) {
-			clases[i] = "";
+			clases[i] = i;
 			countClases[i] = 0;
 		}
-		for(int i = 0; i < numClases; i++) {
-			clases[i] = lista.get(0);
-			for(int j = 1; j < lista.size(); j++) {
-				if(clases[i] == lista.get(j)) {
-					countClases[i] = countClases[i]++;
-					lista.remove(j);
+		int selectClase;
+		for (int i = 0; i < clases.length; i++) {
+			selectClase = i;
+			for (int j = 0; j < lista.length; j++) {
+				if(selectClase == lista[j]) {
+					countClases[i]++;
 				}
 			}
 		}
-		max = 0;
-		for (int i = 1; i < numClases; i++) {
-			if(countClases[i]> max) {
-				max = i;
+		max = countClases[0];
+		for (int i = 1; i < countClases.length; i++) {
+			if(max < countClases[i]) {
+				max = countClases[i];
 			}
 		}
-		System.out.println(clases[max]);
+		//System.out.println("Maximo: " +max);
 		return max;
 	}
 
@@ -137,4 +147,21 @@ public class CNN extends AbstractClassifier {
 	public void setM(int m) {
 		this.m = m;
 	}
+	public void ordena(ArrayList<TablaDistancia> t) {
+		boolean intercambio = true;
+		int j = 0;
+		TablaDistancia temporal;
+		while(intercambio) {
+			intercambio = false;
+			j++;
+			for(int i = 0; i < t.size() - j; i++) {
+				if(t.get(i).distancia > t.get(i + 1).distancia) {
+					temporal = t.remove(i);
+					t.add(i + 1, temporal);
+					intercambio = true;
+				}
+			}
+		}	
+	}
+	
 }
