@@ -1,12 +1,16 @@
-package weka.classifiers.misc;
+package cnn;
 
-public class TablaDistancia {
+public class TablaDistancia implements java.io.Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	double distancia;
 	double clase;
 
 	TablaDistancia(){}
 	
-	TablaDistancia(double distancia, double clase){
+	public TablaDistancia(double distancia, double clase){
 		this.distancia = distancia;
 		this.clase = clase;
 	}

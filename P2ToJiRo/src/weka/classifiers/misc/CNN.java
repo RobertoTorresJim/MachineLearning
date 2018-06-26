@@ -2,16 +2,20 @@ package weka.classifiers.misc;
 
 import java.util.ArrayList;
 
+import cnn.TablaDistancia;
 import weka.classifiers.AbstractClassifier;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Normalize;
 
+/**
+ * @author Torres Jiménez Roberto
+ * @author  Rosalinda Mendoza Mendoza
+ *
+ */
 public class CNN extends AbstractClassifier {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	//Variables que inicializa el usuario 
 	private int knn=3;
@@ -28,7 +32,7 @@ public class CNN extends AbstractClassifier {
 	@Override
 	public void buildClassifier(Instances datos) throws Exception {
 		// TODO Auto-generated method stub
-		x = datos.get(0);
+		x = datos.get(m);
 		System.out.println("X-Class:"+ x.classValue());
 		numClases = datos.numClasses();
 		//System.out.println("Numero de clases: " + numClases);
@@ -42,7 +46,7 @@ public class CNN extends AbstractClassifier {
 		
 		
 		for (int i = 0; i < td.size(); i++) {
-			System.out.println(td.get(i).distancia+"\n");
+			System.out.println(td.get(i).getDistancia()+"\n");
 		}
 		
 		for(int i = 0; i < knn; i++) {
@@ -155,7 +159,7 @@ public class CNN extends AbstractClassifier {
 			intercambio = false;
 			j++;
 			for(int i = 0; i < t.size() - j; i++) {
-				if(t.get(i).distancia > t.get(i + 1).distancia) {
+				if(t.get(i).getDistancia() > t.get(i + 1).getDistancia()) {
 					temporal = t.remove(i);
 					t.add(i + 1, temporal);
 					intercambio = true;
