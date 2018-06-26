@@ -40,13 +40,13 @@ public class CNN extends AbstractClassifier {
 		
 		for(int i = 0; i < datos.size(); i++) {
 			td.add(Distancia(datos.get(i), x));
-			System.out.println("Clase datos: "+ datos.get(i).classValue());
+			//System.out.println("Clase datos: "+ datos.get(i).classValue());
 		}
 		ordena(td);
 		
 		
 		for (int i = 0; i < td.size(); i++) {
-			System.out.println(td.get(i).getDistancia()+"\n");
+			//System.out.println(td.get(i).getDistancia()+"\n");
 		}
 		
 		for(int i = 0; i < knn; i++) {
@@ -79,7 +79,7 @@ public class CNN extends AbstractClassifier {
 		 * Raiz de Zigma((xi-x)^2 *) *
 		 *****************************/
 		distEuc = Math.sqrt(distEuc);
-		System.out.println("Distancia: " + distEuc);
+		//System.out.println("Distancia: " + distEuc);
 		
 		return new TablaDistancia(distEuc, xi.classValue());
 	}
@@ -99,6 +99,7 @@ public class CNN extends AbstractClassifier {
 		int[] countClases = new int[numClases];
 		double[] clases = new double[numClases];
 		double max;
+		double aux;
 		for(int i = 0; i < clases.length; i++) {
 			clases[i] = i;
 			countClases[i] = 0;
@@ -112,10 +113,12 @@ public class CNN extends AbstractClassifier {
 				}
 			}
 		}
-		max = countClases[0];
+		aux = countClases[0];
+		max = 0;
 		for (int i = 1; i < countClases.length; i++) {
-			if(max < countClases[i]) {
-				max = countClases[i];
+			if(aux < countClases[i]) {
+				aux = countClases[i];
+				max = i;
 			}
 		}
 		//System.out.println("Maximo: " +max);
