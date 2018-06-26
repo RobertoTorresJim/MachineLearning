@@ -18,8 +18,8 @@ public class CNN extends AbstractClassifier {
 	
 	private static final long serialVersionUID = 1L;
 	//Variables que inicializa el usuario 
-	private int knn=3;
-	private int m=0;
+	private int knn=5;
+	private int m;
 	private int numClases;
 	
 	//Arreglo de normas y clases de cada instancia (xi, c)
