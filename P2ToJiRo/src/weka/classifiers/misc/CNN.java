@@ -11,7 +11,7 @@ import weka.filters.unsupervised.attribute.Normalize;
 
 /**
  * @author Torres Jiménez Roberto
- * @author  Rosalinda Mendoza Mendoza
+ * @author Rosalinda Mendoza Mendoza
  *
  */
 public class CNN extends AbstractClassifier {
@@ -31,23 +31,16 @@ public class CNN extends AbstractClassifier {
 	
 	@Override
 	public void buildClassifier(Instances datos) throws Exception {
-		// TODO Auto-generated method stub
 		x = datos.get(m);
 		System.out.println("X-Class:"+ x.classValue());
 		numClases = datos.numClasses();
-		//System.out.println("Numero de clases: " + numClases);
 		datos = Normalizar(datos);
 		
 		for(int i = 0; i < datos.size(); i++) {
 			td.add(Distancia(datos.get(i), x));
-			//System.out.println("Clase datos: "+ datos.get(i).classValue());
+			
 		}
 		ordena(td);
-		
-		
-		for (int i = 0; i < td.size(); i++) {
-			//System.out.println(td.get(i).getDistancia()+"\n");
-		}
 		
 		for(int i = 0; i < knn; i++) {
 			vecinos[i] = td.get(i).getClase();
@@ -60,7 +53,6 @@ public class CNN extends AbstractClassifier {
 
 	@Override
 	public double classifyInstance(Instance dato) throws Exception {
-		// TODO Auto-generated method stub
 		return mayor;
 	}
 
@@ -79,7 +71,6 @@ public class CNN extends AbstractClassifier {
 		 * Raiz de Zigma((xi-x)^2 *) *
 		 *****************************/
 		distEuc = Math.sqrt(distEuc);
-		//System.out.println("Distancia: " + distEuc);
 		
 		return new TablaDistancia(distEuc, xi.classValue());
 	}
@@ -95,6 +86,12 @@ public class CNN extends AbstractClassifier {
 		return "CNN [knn=" + knn + ", m=" + m + "]";
 	}
 
+	/**************************************
+	 * Funcion que regresa la clase mayor *
+	 * en los vecinos mas cercanos        *
+	 * @param lista                       *
+	 * @return double mayor               *
+	 **************************************/
 	public double getMayor(double[] lista) {
 		int[] countClases = new int[numClases];
 		double[] clases = new double[numClases];
@@ -121,21 +118,17 @@ public class CNN extends AbstractClassifier {
 				max = i;
 			}
 		}
-		//System.out.println("Maximo: " +max);
 		return max;
 	}
 
 	@Override
 	public String[] getOptions() {
-		// TODO Auto-generated method stub
 		String[] arr = {"-K",""+getKnn(),"m", ""+getM()};
-		
 		return arr;
 	}	
 	
 	@Override
 	public void setOptions(String[] options) throws Exception {
-		// TODO Auto-generated method stub
 		super.setOptions(options);
 	}
 
@@ -154,6 +147,11 @@ public class CNN extends AbstractClassifier {
 	public void setM(int m) {
 		this.m = m;
 	}
+	
+	/********************************************
+	 * Metodo que ordena la tabla de distancias *
+	 * @param t                                 *
+	 ********************************************/
 	public void ordena(ArrayList<TablaDistancia> t) {
 		boolean intercambio = true;
 		int j = 0;
