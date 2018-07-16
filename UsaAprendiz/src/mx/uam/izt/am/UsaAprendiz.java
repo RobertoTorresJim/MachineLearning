@@ -82,7 +82,7 @@ public class UsaAprendiz extends JFrame {
 	
 	private String[] odors = {"almendra","anis","creosota", "pescado", "podrido", "musgoso", "ninguno", "picante0", "picante"};
 	private String[] spores = {"negro", "cafe", "piel", "chocolate", "verde", "naranja", "purpura", "blanco", "amarillo"};
-	private String[] stalks = {"escamoso", "fibroso", "liso", "sedoso"};
+	private String[] stalks = {"fibroso", "escamoso","sedoso", "liso"};
 	private String[] rings = {"telaraña", "evanescente", "flaring", "largo", "ninguno", "colgante", "arriba", "zone"};
 
 	static J48 mlp;
@@ -198,10 +198,10 @@ public class UsaAprendiz extends JFrame {
 					System.out.println(stalkAtt);
 					System.out.println(ringAtt);
 
-					ejemplo.setValue(5, odorAtt);
-					ejemplo.setValue(20, sporeAtt);
-					ejemplo.setValue(13, stalkAtt);
-					ejemplo.setValue(19, ringAtt);
+					ejemplo.setValue(4, odorAtt);
+					ejemplo.setValue(19, sporeAtt);
+					ejemplo.setValue(12, stalkAtt);
+					ejemplo.setValue(18, ringAtt);
 					
 					double clase = mlp.classifyInstance(ejemplo);
 					String nomclase = ins.classAttribute().value((int) clase);
@@ -317,7 +317,7 @@ public class UsaAprendiz extends JFrame {
 		   case  "podrido":
 			   at = 4.0;
 			   break;
-		   case "musgoso":
+		   case "mohoso":
 			   at = 5.0;
 			   break;
 		   case "ninguno":
@@ -405,16 +405,16 @@ public class UsaAprendiz extends JFrame {
 	   public double getStalk(String stalk) {
 		   double at = -1.0;
 		   switch(stalk) {
-		   case "escamoso":
+		   case "fibroso":
 			   at = 0.0;
 			   break;
-		   case "fibroso":
+		   case "escamoso":
 			   at = 1.0;
 			   break;
-		   case "liso":
+		   case "sedoso":
 			   at = 2.0;
 			   break;
-		   case "sedoso":
+		   case "liso":
 			   at = 3.0;
 			   break;
 		   }
