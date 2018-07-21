@@ -6,7 +6,6 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -21,7 +20,6 @@ import java.util.Enumeration;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -30,10 +28,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-
 import weka.classifiers.trees.J48;
 import weka.core.DenseInstance;
 import weka.core.Instances;
@@ -46,7 +40,6 @@ public class UsaAprendiz extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final int BI_WIDTH = 60;
-	private static final int GAP = 10;
 	
 	private JPanel generalContentPane;
 	private JPanel odorContentPane;
@@ -74,8 +67,7 @@ public class UsaAprendiz extends JFrame {
 	private ButtonGroup ringBtnGrp = new ButtonGroup();
 
     private JButton next;
-    private JButton finish;
-	private ArrayList<ImageIcon> odorImgArray = new ArrayList<ImageIcon>();
+    private ArrayList<ImageIcon> odorImgArray = new ArrayList<ImageIcon>();
 	private ArrayList<ImageIcon> sporeImgArray = new ArrayList<ImageIcon>();
 	private ArrayList<ImageIcon> stalkImgArray = new ArrayList<ImageIcon>();
 	private ArrayList<ImageIcon> ringImgArray = new ArrayList<ImageIcon>();
@@ -204,7 +196,7 @@ public class UsaAprendiz extends JFrame {
 					ejemplo.setValue(18, ringAtt);
 					
 					double clase = mlp.classifyInstance(ejemplo);
-					String nomclase = ins.classAttribute().value((int) clase);
+					String nomclase = getClase(ins.classAttribute().value((int) clase));
 
 					System.out.println(nomclase);
 					BufferedImage clas = ImageIO.read(new File("img/class/" + nomclase + ".png"));
@@ -317,7 +309,7 @@ public class UsaAprendiz extends JFrame {
 		   case  "podrido":
 			   at = 4.0;
 			   break;
-		   case "mohoso":
+		   case "musgoso":
 			   at = 5.0;
 			   break;
 		   case "ninguno":
@@ -469,5 +461,11 @@ public class UsaAprendiz extends JFrame {
 			   break;
 		   }
 		return at;
+	   }
+	   
+	   public String getClase(String c) {
+		   if (c == "e") 
+			   return "comestible";
+		   else return "venenoso";
 	   }
 }
