@@ -36,7 +36,9 @@ import weka.core.converters.ConverterUtils.DataSource;
 public class UsaAprendiz extends JFrame {
 
 	/**
-	 *
+	 * Mendoza Mendoza Rosalinda
+	 * Torres Jiménez Roberto
+ 	 * Chavarria Juárez Marisol
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final int BI_WIDTH = 60;
